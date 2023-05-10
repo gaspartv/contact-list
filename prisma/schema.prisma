@@ -1,0 +1,26 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Contact {
+  id    Decimal @id
+  name  String  @unique
+  age   Decimal
+  phone Phone[]
+
+  @@map("contact")
+}
+
+model Phone {
+  id        Decimal @id
+  num       String
+  contact   Contact @relation(fields: [contactId], references: [id], onDelete: Cascade)
+  contactId Decimal
+
+  @@map("phone")
+}
